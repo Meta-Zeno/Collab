@@ -1,40 +1,60 @@
-import { useEffect, useState } from "react";
+import { Component, useEffect, useState } from "react";
 import "./App.css";
+import { TheCatAPI } from "@thatapicompany/thecatapi";
 import Card from "./components/card"
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-
 import About from "./pages/About"
 import Contact from "./pages/Contact"
 
 function App() {
+
   const [catData, setCatData] = useState([]);
   const [basket, setBasket] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
+  const theCatAPI = new TheCatAPI("live_1j9u5LnTVpxTZI7rpqtemC1sln7kdJe2A4gfpnora6RrGgNjcRTfptX4rqnpPREA");
 
   const fetchData = async () => {
     try {
-      const responce = await fetch(
-        "https://api.thecatapi.com/v1/images/search"
-      );
-      if (!responce.ok) {
-        throw new Error(responce.statusText);
-      }
-      const data = await responce.json();
-      setCatData(data);
-      console.log(data)
-    } catch (err) {
-      console.log(err);
+      const images = await theCatAPI.images.searchImages({
+        limit: 20,
+      });
+      console.log(images);
+      setCatData(images)
 
+    } catch (error) {
+      // handle error
     }
+
   };
 
+  const addToBasket = (cat) => {
+        setBasket([...basket, cat]);
+      };
+
   useEffect(() => {
+    console.log("comp run")
     fetchData();
   }, []);
 
-  return (
-<h3></h3>
 
+
+
+  return (
+    <>    
+          <div className="catContainer">
+          {
+              catData.map((cat, index) => {
+                return(
+                  <button className="catButton" onClick={addToBasket}>
+                  <img id={cat.id} key={index} className="catImage" src={cat.url} alt="catImage"></img>
+                  </button>
+                )  
+              }
+            )
+          }
+          </div>
+    </>
+    
   )
 
 }
