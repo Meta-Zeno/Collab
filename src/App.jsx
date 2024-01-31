@@ -1,5 +1,6 @@
 import { Component, useEffect, useState } from "react";
 import "./App.css";
+
 import { TheCatAPI } from "@thatapicompany/thecatapi";
 import Card from "./components/card"
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
@@ -16,9 +17,8 @@ function App() {
   const fetchData = async () => {
     try {
       const images = await theCatAPI.images.searchImages({
-        limit: 20,
+        limit: 10,
       });
-      console.log(images);
       setCatData(images)
 
     } catch (error) {
@@ -27,9 +27,26 @@ function App() {
 
   };
 
-  const addToBasket = (cat) => {
-        setBasket([...basket, cat]);
-      };
+  const addToBasket = (item) => {
+        if(basket.includes(item)) {
+          console.log("item already in basket")
+        } else {
+          let newBasket = []
+          newBasket = [...basket]
+          newBasket.push(item)
+          setBasket(newBasket)
+        }
+        console.log(basket)
+        }
+      
+
+  const removeFromBasket = (index) => {
+    let newBasket = []
+    newBasket = [...basket];
+    newBasket.splice(index, 1);
+    setBasket(newBasket);
+    console.log(basket)
+  };
 
   useEffect(() => {
     console.log("comp run")
@@ -40,24 +57,80 @@ function App() {
 
 
   return (
-    <>    
+    <div className="body">    
+        <h1>{basket.length}</h1>
+
           <div className="catContainer">
           {
               catData.map((cat, index) => {
                 return(
-                  <button className="catButton" onClick={addToBasket}>
-                  <img id={cat.id} key={index} className="catImage" src={cat.url} alt="catImage"></img>
-                  </button>
+                  <CatSpace
+                   key = {index}
+                   id={cat.id}
+                   catPic={cat.url}
+                   addCat={() => addToBasket(cat)}
+                    removeCat={() => {removeFromBasket(index)}}
+                  />
+                  // <div key={index + 0.1} className="catImageContainer">
+
+                  // <img id={cat.id} key={index} className="catImage" src={cat.url} alt="catImage"></img>
+
+                  // <button key={index + 0.2} className="catButton" onClick={() => addToBasket(cat)}>ADD</button>
+
+                  // <button key={index + 0.3}   onClick={() => {removeFromBasket(index)}}>REMOVE</button>
+                  
+                  // </div>
+                  
                 )  
               }
             )
           }
           </div>
-    </>
+                <div className="basketSpace">
+                { basket.map((item, index) => {
+                  return (
+                    <SideNav key={index} basketimage={item.url}>
+      
+                    </SideNav>
+                  )
+                })
+                
+                  } 
+                </div>
+    </div>
+
+
+
     
   )
 
+
 }
+
+const CatSpace = (props) => {
+  return(
+    <div className="catImageContainer">
+
+        <img className="catImage" src={props.catPic} alt="catImage"></img>
+
+        <button  className="catButton" onClick={props.addCat}>ADD</button>
+
+        <button onClick={props.removeCat}>REMOVE</button>
+  
+   </div>
+
+  )
+  
+}
+
+const SideNav = (props) => {
+  return (
+    <div className="basketItems">
+      <img className="basketImage" src={props.basketimage}  alt="basketCat"></img>
+    </div>
+  )
+}
+
 
 export default App;
 
