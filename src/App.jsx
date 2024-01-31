@@ -13,13 +13,13 @@ function App() {
 
   const fetchData = async () => {
     try {
-      const responce = await fetch(
+      const response = await fetch(
         "https://api.thecatapi.com/v1/images/search"
       );
-      if (!responce.ok) {
-        throw new Error(responce.statusText);
+      if (!response.ok) {
+        throw new Error(response.statusText);
       }
-      const data = await responce.json();
+      const data = await response.json();
       setCatData(data);
       console.log(data)
     } catch (err) {
@@ -33,7 +33,7 @@ function App() {
   }, []);
 
   return (
-
+    <h1>TESTING</h1>
     
   )
 
