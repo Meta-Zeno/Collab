@@ -1,26 +1,28 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import Card from "./components/card"
+// import Card from "./components/card";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
-import About from "./pages/About"
-import Contact from "./pages/Contact"
+// import About from "./pages/About"
+// import Contact from "./pages/Contact"
 
 function App() {
-  const [catData, setCatData] = useState([]);
+  const [cats, setCats] = useState([]);
+  const [data, setData] = useState([]);
+
   const [basket, setBasket] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
 
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://api.thecatapi.com/v1/images/search"
+        "https://api.thecatapi.com/v1/images/search?limit=20&api_key=live_1j9u5LnTVpxTZI7rpqtemC1sln7kdJe2A4gfpnora6RrGgNjcRTfptX4rqnpPREA"
       );
       if (!response.ok) {
         throw new Error(response.statusText);
       }
       const data = await response.json();
-      setCatData(data);
+      setData(data);
       console.log(data)
     } catch (err) {
       console.log(err);
@@ -33,7 +35,22 @@ function App() {
   }, []);
 
   return (
-    <h1>TESTING</h1>
+
+
+
+    <div className="catImg">
+      {cats.length > 0 &&
+          cats.map((item) => {
+              return <Card cat={item} key={item.id} />;
+          })}
+
+      {cats.length === 0 &&
+          data.length > 0 &&
+          data.map((item) => {
+              return <Card cat={item} key={item.id} />;
+          })}
+    </div>
+
     
   )
 
