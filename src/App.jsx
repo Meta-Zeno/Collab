@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import CatCard from "./components/CatCard";
+import CatCard from "../components/CatCard";
 
 // import { TheCatAPI } from "@thatapicompany/thecatapi";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
