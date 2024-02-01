@@ -1,60 +1,35 @@
-.body{
-    background-color: black;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    overflow-x: none;
-}
-.catContainer{
-    border: 1px solid red;
-    margin: 0;
-    background-color: black;
-    box-sizing: border-box;
-    height: 1000px;
-    flex-wrap: wrap;
-    display: flex;
+p {
+    margin: 5px;
+    /* padding: 0px; */
+    font-size: 16px;
 
 }
-.catButton {
-    flex-wrap: wrap;
+
+/* container for all the cat images */
+
+.catCont {
+    /* background-color: crimson; */
+    display: grid;
+    justify-items: center;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    row-gap: 120px;
+    padding: 20px;
+    /* overflow: hidden; */
+  
+  
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (max-width: 720px) {
+    grid-template-columns: 1fr;
+
+  }
 }
 
-.catImage {
-    width: 200px;
-    height: 200px;
-}
-
-.catImageContainer {
-    flex-wrap: wrap;
-    display: flex;
-    flex-direction: column;
-    width: fit-content;
-    height: fit-content;
-}
-
-h1{
-    color: white;
-}
-
-.basketSpace {
-    border: 1px solid yellow;
-    width:800px;
-    height: 200px;
-    display: flex;
-    flex-direction: row;
-    justify-content:flex-start;
-    align-items: center;
-}
-
-.basketItems {
-    border: 1px solid blue;
-    width: 80px;
-    height: 80px;
-    margin: 0;
-}
-
-.basketImage {
-    width:50px;
-    height: 50px;
-    margin: 0;
-}
+/* container for each individual cat image */
