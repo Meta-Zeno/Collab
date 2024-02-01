@@ -1,0 +1,37 @@
+
+p {
+    margin: 5px;
+    /* padding: 0px; */
+    font-size: 16px;
+
+}
+
+/* container for all the cat images */
+
+.catCont {
+    /* background-color: crimson; */
+    display: grid;
+    justify-items: center;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    row-gap: 120px;
+    padding: 20px;
+    /* overflow: hidden; */
+  
+  
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  @media (max-width: 720px) {
+    grid-template-columns: 1fr;
+
+  }
+}
+
+/* container for each individual cat image */
+
