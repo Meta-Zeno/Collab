@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./App.css";
-import CatCard from "./components/CatCard";
+import CatCard from "../components/CatCard";
 
 import Home from "./pages/Home";
 import About from "./pages/About";
