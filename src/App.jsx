@@ -1,31 +1,45 @@
-import { Component, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
+import CatCard from "./components/CatCard";
 
-import { TheCatAPI } from "@thatapicompany/thecatapi";
-import faker from "@faker-js/faker"; //i have added the faker library for the random information on the cats
-import Card from "./components/card";
+// import { TheCatAPI } from "@thatapicompany/thecatapi";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 
 function App() {
-  const [catData, setCatData] = useState([]);
+
+  const [cats, setCats] = useState([]);
+
+  const [data, setData] = useState([]);
+
+
+
   const [basket, setBasket] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
-  const [isBasketOpen, setIsBasketOpen] = useState(false); //added the basket usestate for the modal
+  // const theCatAPI = new TheCatAPI("live_1j9u5LnTVpxTZI7rpqtemC1sln7kdJe2A4gfpnora6RrGgNjcRTfptX4rqnpPREA");
 
-  const theCatAPI = new TheCatAPI(
-    "live_1j9u5LnTVpxTZI7rpqtemC1sln7kdJe2A4gfpnora6RrGgNjcRTfptX4rqnpPREA"
-  );
+  // const { faker } = require('@faker-js/faker');
 
-  const fetchData = async () => {
+
+
+
+  const getCats = async () => {
     try {
-      const images = await theCatAPI.images.searchImages({
-        limit: 10,
-      });
-      setCatData(images);
+      const response = await fetch("https://api.thecatapi.com/v1/images/search?limit=40&api_key=live_1j9u5LnTVpxTZI7rpqtemC1sln7kdJe2A4gfpnora6RrGgNjcRTfptX4rqnpPREA");
+
+      if (!response.ok) {
+        throw new Error("Something went wrong...")
+      }
+
+      const data = await response.json();
+
+      // console.log(data);
+      setData(data)
+
+
     } catch (error) {
-      // handle error
+      setErrorMsg(error.message)
     }
   };
 
@@ -62,65 +76,32 @@ function App() {
   };
 
   useEffect(() => {
-    fetchData();
+    console.log("comp run")
+    getCats();
   }, []);
 
   return (
-    <div className="body">
-      <h1>
-        <button onClick={toggleBasket}>Basket ({basket.length})</button>
-      </h1>
+    <>    
+      <div className="app">
+          <h1></h1>
+          {/* <Search search={handleSearch} /> */}
+          <div className="catCont">
+              {cats.length > 0 &&
+                  cats.map((item, index) => {
+                      return <CatCard cat={item} key={item.id} />;
+                  })}
 
-      <div className="catContainer">
-        {catData.map((cat, index) => (
-          <CatSpace
-            key={index}
-            id={cat.id}
-            catPic={cat.url}
-            addCat={() => addToBasket(cat)}
-            removeCat={() => removeFromBasket(index)}
-          />
-        ))}
+              {cats.length === 0 &&
+                  data.length > 0 &&
+                  data.map((item, index) => {
+                      return <CatCard cat={item} key={item.id} />;
+                  })}
+          </div>
       </div>
+    </>
+    
+  )
 
-      {isBasketOpen && (
-        <Basket
-          basket={basket}
-          totalPrice={calculateTotalPrice()}
-          closeBasket={toggleBasket}
-        />
-      )}
-    </div>
-  );
 }
-
-const CatSpace = (props) => {
-  return (
-    <div className="catImageContainer">
-      <img className="catImage" src={props.catPic} alt="catImage"></img>
-      <button className="catButton" onClick={props.addCat}>
-        ADD
-      </button>
-      <button onClick={props.removeCat}>REMOVE</button>
-    </div>
-  );
-};
-
-const Basket = ({ basket, totalPrice, closeBasket }) => {
-  return (
-    <div className="basketModal">
-      <h2>Your Basket</h2>
-      {basket.map((item, index) => (
-        <div key={index}>
-          <p>
-            {item.price} - {item.location}
-          </p>
-        </div>
-      ))}
-      <p>Total Price: {totalPrice}</p>
-      <button onClick={closeBasket}>Close Basket</button>
-    </div>
-  );
-};
 
 export default App;
