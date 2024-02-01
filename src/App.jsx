@@ -1,45 +1,35 @@
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./App.css";
 import CatCard from "./components/CatCard";
 
-// import { TheCatAPI } from "@thatapicompany/thecatapi";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import NavBar from "./components/NavBar";
 
 function App() {
-
   const [cats, setCats] = useState([]);
-
   const [data, setData] = useState([]);
-
-
-
   const [basket, setBasket] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
-  // const theCatAPI = new TheCatAPI("live_1j9u5LnTVpxTZI7rpqtemC1sln7kdJe2A4gfpnora6RrGgNjcRTfptX4rqnpPREA");
-
-  // const { faker } = require('@faker-js/faker');
-
-
-
 
   const getCats = async () => {
     try {
-      const response = await fetch("https://api.thecatapi.com/v1/images/search?limit=40&api_key=live_1j9u5LnTVpxTZI7rpqtemC1sln7kdJe2A4gfpnora6RrGgNjcRTfptX4rqnpPREA");
+      const response = await fetch(
+        "https://api.thecatapi.com/v1/images/search?limit=40&api_key=live_1j9u5LnTVpxTZI7rpqtemC1sln7kdJe2A4gfpnora6RrGgNjcRTfptX4rqnpPREA"
+      );
 
       if (!response.ok) {
-        throw new Error("Something went wrong...")
+        throw new Error("Something went wrong...");
       }
 
       const data = await response.json();
 
       // console.log(data);
-      setData(data)
-
-
+      setData(data);
     } catch (error) {
-      setErrorMsg(error.message)
+      setErrorMsg(error.message);
     }
   };
 
@@ -76,32 +66,40 @@ function App() {
   };
 
   useEffect(() => {
-    console.log("comp run")
+    console.log("comp run");
     getCats();
   }, []);
 
   return (
-    <>    
-      <div className="app">
-          <h1></h1>
-          {/* <Search search={handleSearch} /> */}
-          <div className="catCont">
-              {cats.length > 0 &&
-                  cats.map((item, index) => {
-                      return <CatCard cat={item} key={item.id} />;
-                  })}
+    <>
+      <BrowserRouter>
+        <NavBar />
+        <div className="nav-id">
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/About" element={<About />}></Route>
+            <Route path="/Contact" element={<Contact />}></Route>
+          </Routes>
+        </div>
+      </BrowserRouter>
 
-              {cats.length === 0 &&
-                  data.length > 0 &&
-                  data.map((item, index) => {
-                      return <CatCard cat={item} key={item.id} />;
-                  })}
-          </div>
+      <div className="app">
+        <h1></h1>
+        <div className="catCont">
+          {cats.length > 0 &&
+            cats.map((item, index) => {
+              return <CatCard cat={item} key={item.id} />;
+            })}
+
+          {cats.length === 0 &&
+            data.length > 0 &&
+            data.map((item, index) => {
+              return <CatCard cat={item} key={item.id} />;
+            })}
+        </div>
       </div>
     </>
-    
-  )
-
+  );
 }
 
 export default App;
