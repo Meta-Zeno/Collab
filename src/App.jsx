@@ -4,8 +4,8 @@ import CatCard from "./components/CatCard";
 
 // import { TheCatAPI } from "@thatapicompany/thecatapi";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import About from "./pages/About"
-import Contact from "./pages/Contact"
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 
 function App() {
 
@@ -41,20 +41,44 @@ function App() {
     } catch (error) {
       setErrorMsg(error.message)
     }
-
   };
 
-  const addToBasket = (cat) => {
-        setBasket([...basket, cat]);
-      };
+  const addToBasket = (item) => {
+    if (basket.includes(item)) {
+      console.log("item already in basket");
+    } else {
+      let newBasket = [...basket];
+      newBasket.push({ ...item, ...generateFakeData() }); //adding the fake data to the bbasket from the newly imported library
+      setBasket(newBasket);
+    }
+  };
+
+  const removeFromBasket = (index) => {
+    let newBasket = [...basket];
+    newBasket.splice(index, 1);
+    setBasket(newBasket);
+  };
+
+  const generateFakeData = () => {
+    return {
+      price: faker.commerce.price(),
+      location: faker.address.city(),
+      // keep adding more informaiton from library if needed.
+    };
+  };
+
+  const calculateTotalPrice = () => {
+    return basket.reduce((total, item) => total + item.price, 0);
+  };
+
+  const toggleBasket = () => {
+    setIsBasketOpen(!isBasketOpen);
+  };
 
   useEffect(() => {
     console.log("comp run")
     getCats();
   }, []);
-
-
-
 
   return (
     <>    
@@ -81,81 +105,3 @@ function App() {
 }
 
 export default App;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React, { useState, useEffect } from 'react';
-// import './App.scss';
-// import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-// import Header from './components/Header';
-// import Footer from './components/Footer';
-// import Home from './pages/Home';
-// import ContactUs from './pages/ContactUs';
-// import ProductDetails from './pages/ProductDetails';
-// import Basket from './components/Basket';
-// import { fetchCatData } from './api/catApi';
-
-
-//   useEffect(() => {
-//     fetchCatData().then((data) => setCats(data));
-//   }, []);
-
-//   const addToBasket = (cat) => {
-//     setBasket([...basket, cat]);
-//   };
-
-//   const removeFromBasket = (index) => {
-//     const newBasket = [...basket];
-//     newBasket.splice(index, 1);
-//     setBasket(newBasket);
-//   };
-
-//   const calculateTotalPrice = () => {
-//     return basket.reduce((total, cat) => total + cat.price, 0);
-//   };
-
-//   return (
-//     <Router>
-//       <div className="App">
-//         <Header />
-//         <Switch>
-//           <Route path="/" exact>
-//             <Home cats={cats} addToBasket={addToBasket} />
-//           </Route>
-//           <Route path="/product/:id">
-//             <ProductDetails cats={cats} addToBasket={addToBasket} />
-//           </Route>
-//           <Route path="/contact-us">
-//             <ContactUs />
-//           </Route>
-//         </Switch>
-//         <Basket basket={basket} removeFromBasket={removeFromBasket} calculateTotalPrice={calculateTotalPrice} />
-//         <Footer />
-//       </div>
-//     </Router>
-//   );
-// }
-
-// export default App;
