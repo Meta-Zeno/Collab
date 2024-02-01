@@ -1,28 +1,45 @@
-import { Component, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
-import { TheCatAPI } from "@thatapicompany/thecatapi";
-import Card from "./components/card"
+import CatCard from "./components/CatCard";
+
+// import { TheCatAPI } from "@thatapicompany/thecatapi";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import About from "./pages/About"
 import Contact from "./pages/Contact"
 
 function App() {
 
-  const [catData, setCatData] = useState([]);
+  const [cats, setCats] = useState([]);
+
+  const [data, setData] = useState([]);
+
+
+
   const [basket, setBasket] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
-  const theCatAPI = new TheCatAPI("live_1j9u5LnTVpxTZI7rpqtemC1sln7kdJe2A4gfpnora6RrGgNjcRTfptX4rqnpPREA");
+  // const theCatAPI = new TheCatAPI("live_1j9u5LnTVpxTZI7rpqtemC1sln7kdJe2A4gfpnora6RrGgNjcRTfptX4rqnpPREA");
 
-  const fetchData = async () => {
+  // const { faker } = require('@faker-js/faker');
+
+
+
+
+  const getCats = async () => {
     try {
-      const images = await theCatAPI.images.searchImages({
-        limit: 20,
-      });
-      console.log(images);
-      setCatData(images)
+      const response = await fetch("https://api.thecatapi.com/v1/images/search?limit=40&api_key=live_1j9u5LnTVpxTZI7rpqtemC1sln7kdJe2A4gfpnora6RrGgNjcRTfptX4rqnpPREA");
+
+      if (!response.ok) {
+        throw new Error("Something went wrong...")
+      }
+
+      const data = await response.json();
+
+      // console.log(data);
+      setData(data)
+
 
     } catch (error) {
-      // handle error
+      setErrorMsg(error.message)
     }
 
   };
@@ -33,7 +50,7 @@ function App() {
 
   useEffect(() => {
     console.log("comp run")
-    fetchData();
+    getCats();
   }, []);
 
 
@@ -41,18 +58,22 @@ function App() {
 
   return (
     <>    
-          <div className="catContainer">
-          {
-              catData.map((cat, index) => {
-                return(
-                  <button className="catButton" onClick={addToBasket}>
-                  <img id={cat.id} key={index} className="catImage" src={cat.url} alt="catImage"></img>
-                  </button>
-                )  
-              }
-            )
-          }
+      <div className="app">
+          <h1></h1>
+          {/* <Search search={handleSearch} /> */}
+          <div className="catCont">
+              {cats.length > 0 &&
+                  cats.map((item, index) => {
+                      return <CatCard cat={item} key={item.id} />;
+                  })}
+
+              {cats.length === 0 &&
+                  data.length > 0 &&
+                  data.map((item, index) => {
+                      return <CatCard cat={item} key={item.id} />;
+                  })}
           </div>
+      </div>
     </>
     
   )
