@@ -1,4 +1,4 @@
-.navBar {
+.navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -6,7 +6,7 @@
     background-color: greenyellow;
 }
 
-.navBar a {
+.navbar a {
     margin-right: 10px;
     text-decoration: none;
     color: red;
