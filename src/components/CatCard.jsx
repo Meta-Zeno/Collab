@@ -1,11 +1,11 @@
-import "./catCard.css";
-import { faker, fakerEN_GB } from "@faker-js/faker";
+// CatCard.jsx
+import React, { useState } from "react";
 import { IoIosCall } from "react-icons/io";
 import { MdOutlineMailOutline } from "react-icons/md";
-import { useState } from "react";
-// import Modal from "./Modal";
+import { faker, fakerEN_GB } from "@faker-js/faker";
+import "./catCard.css";
 
-export default function CatCard({ cat }) {
+const CatCard = ({ cat, plusToBasket }) => {
   const [toggle, setToggle] = useState(true);
 
   const createRandomCatDetails = () => {
@@ -22,53 +22,202 @@ export default function CatCard({ cat }) {
       symbol: "£",
     });
 
-    return [
-      randCatName,
-      randCatBreed,
-      randSex,
-      randLoc,
-      randPhone,
-      randEmail,
-      randPrice,
-    ];
+    return {
+      name: randCatName,
+      breed: randCatBreed,
+      sex: randSex,
+      bornIn: randLoc,
+      email: randEmail,
+      phone: randPhone,
+      price: randPrice,
+    };
   };
 
-  const randomCat = createRandomCatDetails();
-
-  //   console.log(randomCat);
+  const randomCatDetails = createRandomCatDetails();
 
   const handleClick = () => {
     setToggle(!toggle);
-
-    // open modal/side panel?
+    plusToBasket({ ...cat, ...randomCatDetails });
   };
 
   return (
-    <>
-      <div className="catCardCont" key={cat.id}>
-        <div className="catCardContInner">
-          <div className="catCardFront">
-            <h2 className="catName">{randomCat[0]}</h2>
-            <img className="catImg" src={cat.url} alt="random cat image" />
-          </div>
-          <div class="catCardBack">
-            <p>Breed: {randomCat[1]}</p>
-            <p>Gender: {randomCat[2]}</p>
-            <p>Born In: {randomCat[3]}</p>
-            <p>OWNER CONTACT</p>
-            <p>
-              <IoIosCall /> {randomCat[4]}
-            </p>
-            <p>
-              <MdOutlineMailOutline /> {randomCat[5]}
-            </p>
-            <p>{randomCat[6]}</p>
-            <button onClick={handleClick} className="btnInfo">
-              Add To Cart
-            </button>
-          </div>
+    <div className="catCardCont" key={cat.id}>
+      <div className="catCardContInner">
+        <div className="catCardFront">
+          <h2 className="catName">{randomCatDetails.name}</h2>
+          <img className="catImg" src={cat.url} alt="random cat image" />
+        </div>
+        <div className="catCardBack">
+          <p>Breed: {randomCatDetails.breed}</p>
+          <p>Gender: {randomCatDetails.sex}</p>
+          <p>Born In: {randomCatDetails.bornIn}</p>
+          <p>OWNER CONTACT</p>
+          <p>
+            <IoIosCall /> {randomCatDetails.phone}
+          </p>
+          <p>
+            <MdOutlineMailOutline /> {randomCatDetails.email}
+          </p>
+          <p>Price: {randomCatDetails.price}</p>
+          <button onClick={handleClick} className="btnInfo">
+            Add To Cart
+          </button>
         </div>
       </div>
-    </>
+    </div>
   );
-}
+};
+
+export default CatCard;
+
+
+
+
+
+// import React, { useState } from "react";
+// import { IoIosCall } from "react-icons/io";
+// import { MdOutlineMailOutline } from "react-icons/md";
+// import { faker, fakerEN_GB } from "@faker-js/faker";
+
+// const CatCard = ({ cat, plusToBasket }) => {
+//   const [toggle, setToggle] = useState(true);
+
+//   const createRandomCatDetails = () => {
+//     const randSex = faker.person.sexType();
+//     const randCatName = faker.person.firstName(randSex);
+//     const randCatBreed = faker.animal.cat();
+//     const randLoc = fakerEN_GB.location.county();
+//     const randEmail = fakerEN_GB.internet.email();
+//     const randPhone = fakerEN_GB.phone.number();
+//     const randPrice = faker.finance.amount({
+//       min: 100,
+//       max: 1000,
+//       dec: 2,
+//       symbol: "£",
+//     });
+
+//     return {
+//       name: randCatName,
+//       breed: randCatBreed,
+//       sex: randSex,
+//       bornIn: randLoc,
+//       email: randEmail,
+//       phone: randPhone,
+//       price: randPrice,
+//     };
+//   };
+
+//   const randomCatDetails = createRandomCatDetails();
+
+//   const handleClick = () => {
+//     setToggle(!toggle);
+//     plusToBasket({ ...cat, ...randomCatDetails });
+//   };
+
+//   return (
+//     <>
+//       <div className="catCardCont" key={cat.id}>
+//         <div className="catCardContInner">
+//           <div className="catCardFront">
+//             <h2 className="catName">{randomCatDetails.name}</h2>
+//             <img className="catImg" src={cat.url} alt="random cat image" />
+//           </div>
+//           <div className="catCardBack">
+//             <p>Breed: {randomCatDetails.breed}</p>
+//             <p>Gender: {randomCatDetails.sex}</p>
+//             <p>Born In: {randomCatDetails.bornIn}</p>
+//             <p>OWNER CONTACT</p>
+//             <p>
+//               <IoIosCall /> {randomCatDetails.phone}
+//             </p>
+//             <p>
+//               <MdOutlineMailOutline /> {randomCatDetails.email}
+//             </p>
+//             <p>Price: {randomCatDetails.price}</p>
+//             <button onClick={handleClick} className="btnInfo">
+//               Add To Cart
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+//     </>
+//   );
+// };
+
+// export default CatCard;
+
+
+
+
+
+// import "./catCard.css";
+// import { IoIosCall } from "react-icons/io";
+// import { MdOutlineMailOutline } from "react-icons/md";
+// import { useState } from "react";
+// import { faker, fakerEN_GB } from "@faker-js/faker";
+
+// export default function CatCard({ cat, plusToBasket }) {
+//   const [toggle, setToggle] = useState(true);
+
+//   const createRandomCatDetails = () => {
+//     const randSex = faker.person.sexType();
+//     const randCatName = faker.person.firstName(randSex);
+//     const randCatBreed = faker.animal.cat();
+//     const randLoc = fakerEN_GB.location.county();
+//     const randEmail = fakerEN_GB.internet.email();
+//     const randPhone = fakerEN_GB.phone.number();
+//     const randPrice = faker.finance.amount({
+//       min: 100,
+//       max: 1000,
+//       dec: 2,
+//       symbol: "£",
+//     });
+
+//     return {
+//       name: randCatName,
+//       breed: randCatBreed,
+//       sex: randSex,
+//       bornIn: randLoc,
+//       email: randEmail,
+//       phone: randPhone,
+//       price: randPrice,
+//     };
+//   };
+
+//   const randomCatDetails = createRandomCatDetails();
+
+//   const handleClick = () => {
+//     setToggle(!toggle);
+//     plusToBasket({ ...cat, ...randomCatDetails });
+//   };
+
+//   return (
+//     <>
+//       <div className="catCardCont" key={cat.id}>
+//         <div className="catCardContInner">
+//           <div className="catCardFront">
+//             <h2 className="catName">{randomCatDetails.name}</h2>
+//             <img className="catImg" src={cat.url} alt="random cat image" />
+//           </div>
+//           <div className="catCardBack">
+//             <p>Breed: {randomCatDetails.breed}</p>
+//             <p>Gender: {randomCatDetails.sex}</p>
+//             <p>Born In: {randomCatDetails.bornIn}</p>
+//             <p>OWNER CONTACT</p>
+//             <p>
+//               <IoIosCall /> {randomCatDetails.phone}
+//             </p>
+//             <p>
+//               <MdOutlineMailOutline /> {randomCatDetails.email}
+//             </p>
+//             <p>Price: {randomCatDetails.price}</p>
+//             <button onClick={handleClick} className="btnInfo">
+//               Add To Cart
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+//     </>
+//   );
+// }
+

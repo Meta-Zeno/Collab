@@ -2,11 +2,12 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./App.css";
 import CatCard from "./components/CatCard";
-
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import NavBar from "./components/NavBar";
+import Basket from "./components/Basket";
+import { faker } from "@faker-js/faker";
 
 function App() {
   const [cats, setCats] = useState([]);
@@ -26,43 +27,29 @@ function App() {
 
       const data = await response.json();
 
-      // console.log(data);
       setData(data);
     } catch (error) {
       setErrorMsg(error.message);
     }
   };
 
-  const addToBasket = (item) => {
+  const plusToBasket = (item) => {
+    console.log(item);
     if (basket.includes(item)) {
       console.log("item already in basket");
     } else {
       let newBasket = [...basket];
-      newBasket.push({ ...item, ...generateFakeData() }); //adding the fake data to the bbasket from the newly imported library
+      newBasket.push({ ...item, ...generateFakeData() });
       setBasket(newBasket);
+      console.log(basket)
     }
-  };
-
-  const removeFromBasket = (index) => {
-    let newBasket = [...basket];
-    newBasket.splice(index, 1);
-    setBasket(newBasket);
   };
 
   const generateFakeData = () => {
     return {
       price: faker.commerce.price(),
-      location: faker.address.city(),
-      // keep adding more informaiton from library if needed.
+      location: faker.location.city(),
     };
-  };
-
-  const calculateTotalPrice = () => {
-    return basket.reduce((total, item) => total + item.price, 0);
-  };
-
-  const toggleBasket = () => {
-    setIsBasketOpen(!isBasketOpen);
   };
 
   useEffect(() => {
@@ -73,12 +60,13 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <NavBar />
+        <NavBar basket={basket} />
         <div className="nav-id">
           <Routes>
             <Route path="/" element={<Home />}></Route>
             <Route path="/About" element={<About />}></Route>
             <Route path="/Contact" element={<Contact />}></Route>
+            <Route path="/basket" element={<Basket basketData={basket} />} /> {/* New route for Basket */}
           </Routes>
         </div>
       </BrowserRouter>
@@ -88,13 +76,13 @@ function App() {
         <div className="catCont">
           {cats.length > 0 &&
             cats.map((item, index) => {
-              return <CatCard cat={item} key={item.id} />;
+              return <CatCard cat={item} key={item.id} plusToBasket={plusToBasket} />;
             })}
 
           {cats.length === 0 &&
             data.length > 0 &&
             data.map((item, index) => {
-              return <CatCard cat={item} key={item.id} />;
+              return <CatCard cat={item} key={item.id} plusToBasket={plusToBasket} />;
             })}
         </div>
       </div>
