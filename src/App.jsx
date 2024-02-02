@@ -34,14 +34,17 @@ function App() {
   };
 
   const plusToBasket = (item) => {
-    console.log(item);
+    console.log(`item: ${item}`);
     if (basket.includes(item)) {
       console.log("item already in basket");
     } else {
       let newBasket = [...basket];
-      newBasket.push({ ...item, ...generateFakeData() });
+      newBasket.push({ ...item, price: item.price, location: item.location });
       setBasket(newBasket);
-      console.log(basket)
+      console.log(`basket: ${basket}`)
+      // newBasket.push({ ...item, ...generateFakeData() });
+      // setBasket(newBasket);
+      // console.log(basket)
     }
   };
 
@@ -50,6 +53,17 @@ function App() {
       price: faker.commerce.price(),
       location: faker.location.city(),
     };
+  };
+
+  // Adding the  total price as a new function ######################
+
+  const calculateTotalPrice = () => {
+    let totalPrice = 0;
+    basket.forEach((item) =>{
+  totalPrice += parseFloat(item.price);
+        });
+    
+    return totalPrice.toFixed(2); 
   };
 
   useEffect(() => {
@@ -66,7 +80,10 @@ function App() {
             <Route path="/" element={<Home />}></Route>
             <Route path="/About" element={<About />}></Route>
             <Route path="/Contact" element={<Contact />}></Route>
-            <Route path="/basket" element={<Basket basketData={basket} />} /> {/* New route for Basket */}
+            {/* <Route path="/basket" element={<Basket basketData={basket} />} />  */}
+
+            {/* added new route for Total price */}
+            <Route path="/basket" element={<Basket basketData={basket} catPricesTotal={calculateTotalPrice} />} />
           </Routes>
         </div>
       </BrowserRouter>

@@ -7,7 +7,7 @@ const BasketItem = (props) => {
         <img src={props.basketItem.url} alt="cat" />
       </div>
       <div className="Basket-price-and-breed">
-        <h3 className="£">£{props.price}</h3>
+        <h3 className="£">{props.price}</h3>
         <h2 className="breed-name">{props.basketItem.breed ? props.basketItem.breed : "Cat Breed"}</h2>
         <button className="remove-btn"
           onClick={() => {
