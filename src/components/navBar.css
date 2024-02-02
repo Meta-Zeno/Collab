@@ -1,18 +1,47 @@
 .navbar {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: center; */
     align-items: center;
+    position: sticky;
+    top: 0px;
+    height: 60px;
+    z-index: 100;
     padding: 10px;
-    background-color: greenyellow;
+    background-color: rgb(23, 94, 125);
+    border-bottom: 2px solid rgb(21, 82, 108);
+    /* box-shadow:  2px 4px 5px 5px hsla(0, 0%, 0%, 0.608),
+    2px 4px 5px 5px hsla(0, 0%, 100%, 0.475), */
+
+    box-shadow: 1px 1px 3px 1px rgba(36, 36, 36, 0.675);
+
 }
 
 .navbar a {
     margin-right: 10px;
     text-decoration: none;
-    color: red;
+    color: white;
 }
 
 .basket-icon {
     cursor: pointer;
-    font-size: 20px;
+    margin-top: 10px;
+    font-size: 40px;
+}
+
+.basket-text {
+    font-size: 14px;
+    text-align: end;
+
+}
+
+.logo {
+    width: 60px;
+    height: 60px
+}
+
+.lrg {
+    font-size: 40px;
+}
+.pushRight {
+    margin-left: auto;
 }

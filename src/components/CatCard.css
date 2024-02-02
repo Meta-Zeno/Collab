@@ -1,7 +1,7 @@
 .catCardCont {
-  width: 150px;
+  width: 300px;
   margin: 5px; 
-  height: 400px; 
+  height: 300px; 
   perspective: 1000px;
   display: inline-block; 
   box-sizing: border-box;
@@ -32,15 +32,18 @@
 .catCardBack {
   display: flex;
   flex-direction: column;
-  background-color: black;
+  /* justify-content: center;
+  align-items: flex-start; */
+  background-color: rgb(23, 54, 67);
   color: white;
+  padding-top: 10px;
   border-radius: 10px;
   transform: rotateY(180deg);
 }
 
 .catName {
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.762);
+  background-color: rgba(23, 94, 125, 0.773);
   color: white;
   width: 100%;
   margin: 0px;
@@ -63,4 +66,28 @@
   border: 0px;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
+}
+
+
+
+.iconRow {
+  /* background-color: cornflowerblue; */
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  align-self: flex-start;
+  justify-content: center;
+  margin-left: 10px;
+}
+
+.contentLower {
+  margin-top: auto;
+}
+
+.small {
+  font-size: 14px;
+}
+
+.med {
+  font-size: 16px;
 }
