@@ -32,5 +32,10 @@ p {
   }
 }
 
-
+h1 {
+  display: flex;
+  justify-content: center;
+  text-decoration: underline;
+  color: red;
+}
 /* container for each individual cat image */
