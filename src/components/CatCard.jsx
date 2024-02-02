@@ -37,9 +37,11 @@ const CatCard = ({ cat, plusToBasket }) => {
 
   const randomCatDetails = createRandomCatDetails();
 
+
   const handleClick = (cat) => {
     setToggle(!toggle);
     console.log(`cat: ${cat.breed}`)
+
     plusToBasket({ ...cat, ...randomCatDetails });
   };
 
@@ -55,7 +57,17 @@ const CatCard = ({ cat, plusToBasket }) => {
           <p>Gender: {randomCatDetails.sex}</p>
           <p>Born In: {randomCatDetails.bornIn}</p>
           <p>Price: {randomCatDetails.price}</p>
-          <button onClick={handleClick} className="btnInfo">
+          <p className="contentLower">OWNER CONTACT</p>
+            <p className="iconRow small">
+              <IoIosCall /> 
+              <>{randomCatDetails.phone}</>
+            </p>
+            <p className="iconRow small">
+              <MdOutlineMailOutline /> 
+              <>{randomCatDetails.email}</>
+            </p>
+
+          <button onClick={()=> handleClick(cat)} className="btnInfo">
             Add To Cart
           </button>
         </div>
